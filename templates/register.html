@@ -1,0 +1,1336 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Create Account | ASCEND
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+    /* =====================================================
+       ASCEND REGISTER — PREMIUM SPLIT DESIGN
+    ====================================================== */
+
+    .register-page {
+        min-height: 680px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        padding: 45px 20px 65px;
+    }
+
+
+    .register-container {
+        width: 100%;
+        max-width: 980px;
+
+        display: grid;
+        grid-template-columns: 0.9fr 1.1fr;
+
+        overflow: hidden;
+
+        background: var(--surface);
+
+        border: 1px solid var(--border);
+
+        border-radius: 28px;
+
+        box-shadow: var(--shadow);
+    }
+
+
+    /* =====================================================
+       LEFT BRAND PANEL
+    ====================================================== */
+
+    .register-showcase {
+        position: relative;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        min-height: 620px;
+
+        padding: 40px;
+
+        overflow: hidden;
+
+        color: white;
+
+        background:
+            radial-gradient(
+                circle at 20% 20%,
+                rgba(139, 92, 246, 0.40),
+                transparent 35%
+            ),
+            radial-gradient(
+                circle at 80% 80%,
+                rgba(59, 130, 246, 0.32),
+                transparent 40%
+            ),
+            linear-gradient(
+                145deg,
+                #11152b,
+                #181334 55%,
+                #101827
+            );
+    }
+
+
+    .showcase-glow {
+        position: absolute;
+
+        width: 230px;
+        height: 230px;
+
+        top: -90px;
+        right: -80px;
+
+        border-radius: 50%;
+
+        background:
+            rgba(129, 140, 248, 0.16);
+
+        filter: blur(8px);
+    }
+
+
+    .showcase-logo {
+        position: relative;
+
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+
+    .showcase-logo-mark {
+        width: 42px;
+        height: 42px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        color: #fff;
+
+        background:
+            rgba(255, 255, 255, 0.10);
+
+        border: 1px solid
+            rgba(255, 255, 255, 0.18);
+
+        border-radius: 12px;
+
+        font-size: 18px;
+        font-weight: 900;
+
+        backdrop-filter: blur(12px);
+    }
+
+
+    .showcase-logo-name {
+        font-size: 17px;
+        font-weight: 900;
+
+        letter-spacing: 2px;
+    }
+
+
+    .showcase-content {
+        position: relative;
+
+        max-width: 360px;
+    }
+
+
+    .showcase-eyebrow {
+        display: inline-flex;
+        align-items: center;
+
+        gap: 7px;
+
+        margin-bottom: 17px;
+
+        padding: 6px 10px;
+
+        color: #dbeafe;
+
+        background:
+            rgba(255, 255, 255, 0.07);
+
+        border: 1px solid
+            rgba(255, 255, 255, 0.12);
+
+        border-radius: 20px;
+
+        font-size: 9px;
+        font-weight: 800;
+
+        letter-spacing: 1px;
+
+        text-transform: uppercase;
+    }
+
+
+    .eyebrow-dot {
+        width: 6px;
+        height: 6px;
+
+        border-radius: 50%;
+
+        background: #a5b4fc;
+
+        box-shadow:
+            0 0 10px #a5b4fc;
+    }
+
+
+    .showcase-content h2 {
+        margin: 0;
+
+        color: #ffffff;
+
+        font-size: 36px;
+
+        line-height: 1.12;
+
+        letter-spacing: -1.2px;
+    }
+
+
+    .showcase-content h2 span {
+        color: #a5b4fc;
+    }
+
+
+    .showcase-content p {
+        margin: 18px 0 0;
+
+        color: #b8c1d9;
+
+        font-size: 12px;
+
+        line-height: 1.8;
+    }
+
+
+    /* =====================================================
+       FEATURE LIST
+    ====================================================== */
+
+    .showcase-features {
+        position: relative;
+
+        display: flex;
+        flex-direction: column;
+
+        gap: 12px;
+    }
+
+
+    .showcase-feature {
+        display: flex;
+        align-items: center;
+
+        gap: 11px;
+
+        color: #d8def0;
+
+        font-size: 10px;
+    }
+
+
+    .feature-icon {
+        width: 27px;
+        height: 27px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        flex-shrink: 0;
+
+        color: #c7d2fe;
+
+        background:
+            rgba(255, 255, 255, 0.08);
+
+        border: 1px solid
+            rgba(255, 255, 255, 0.10);
+
+        border-radius: 8px;
+
+        font-size: 11px;
+    }
+
+
+    /* =====================================================
+       RIGHT FORM AREA
+    ====================================================== */
+
+    .register-form-area {
+        padding: 48px 50px;
+    }
+
+
+    .form-heading {
+        margin-bottom: 28px;
+    }
+
+
+    .form-heading h1 {
+        margin: 0 0 7px;
+
+        color: var(--text);
+
+        font-size: 25px;
+        font-weight: 850;
+
+        letter-spacing: -0.5px;
+    }
+
+
+    .form-heading p {
+        margin: 0;
+
+        color: var(--text-muted);
+
+        font-size: 11px;
+
+        line-height: 1.6;
+    }
+
+
+    /* =====================================================
+       DJANGO FORM ERRORS
+    ====================================================== */
+
+    .form-errors {
+        margin-bottom: 18px;
+
+        padding: 12px 14px;
+
+        color: var(--error);
+
+        background: var(--error-bg);
+
+        border: 1px solid
+            rgba(239, 68, 68, 0.18);
+
+        border-radius: 10px;
+
+        font-size: 10px;
+
+        line-height: 1.5;
+    }
+
+
+    .field-errors {
+        margin-top: 6px;
+
+        color: var(--error);
+
+        font-size: 9px;
+
+        line-height: 1.5;
+    }
+
+
+    .field-help {
+        margin-top: 6px;
+
+        color: var(--text-light);
+
+        font-size: 8px;
+
+        line-height: 1.55;
+    }
+
+
+    /* =====================================================
+       FORM GROUP
+    ====================================================== */
+
+    .register-form {
+        display: flex;
+        flex-direction: column;
+
+        gap: 17px;
+    }
+
+
+    .form-group label {
+        display: block;
+
+        margin-bottom: 7px;
+
+        color: var(--text-secondary);
+
+        font-size: 10px;
+        font-weight: 800;
+    }
+
+
+    .input-wrapper {
+        position: relative;
+    }
+
+
+    .register-input {
+        width: 100%;
+        height: 45px;
+
+        box-sizing: border-box;
+
+        padding: 0 13px;
+
+        color: var(--text);
+
+        background: var(--input-bg);
+
+        border: 1px solid var(--input-border);
+
+        border-radius: 10px;
+
+        outline: none;
+
+        font-family: inherit;
+        font-size: 11px;
+
+        transition:
+            border-color 0.2s ease,
+            box-shadow 0.2s ease,
+            background 0.2s ease;
+    }
+
+
+    .register-input.password-input {
+        padding-right: 47px;
+    }
+
+
+    .register-input::placeholder {
+        color: var(--text-light);
+    }
+
+
+    .register-input:hover {
+        border-color: var(--border-strong);
+    }
+
+
+    .register-input:focus {
+        border-color: var(--accent);
+
+        box-shadow:
+            0 0 0 3px
+            rgba(99, 102, 241, 0.10);
+    }
+
+
+    /* =====================================================
+       PASSWORD TOGGLE
+    ====================================================== */
+
+    .password-toggle {
+        position: absolute;
+
+        top: 50%;
+        right: 6px;
+
+        width: 34px;
+        height: 34px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        transform: translateY(-50%);
+
+        color: var(--text-muted);
+
+        background: transparent;
+
+        border: none;
+
+        border-radius: 7px;
+
+        cursor: pointer;
+
+        font-size: 13px;
+
+        transition: 0.2s ease;
+    }
+
+
+    .password-toggle:hover {
+        color: var(--text);
+
+        background: var(--surface-hover);
+    }
+
+
+    /* =====================================================
+       PASSWORD STRENGTH
+    ====================================================== */
+
+    .password-strength {
+        display: flex;
+
+        align-items: center;
+
+        gap: 8px;
+
+        margin-top: 7px;
+    }
+
+
+    .strength-bars {
+        flex: 1;
+
+        display: flex;
+
+        gap: 4px;
+    }
+
+
+    .strength-bar {
+        height: 3px;
+
+        flex: 1;
+
+        background: var(--border);
+
+        border-radius: 5px;
+
+        transition: 0.25s ease;
+    }
+
+
+    .strength-text {
+        min-width: 55px;
+
+        color: var(--text-light);
+
+        font-size: 8px;
+
+        text-align: right;
+    }
+
+
+    /* =====================================================
+       SUBMIT
+    ====================================================== */
+
+    .register-button {
+        width: 100%;
+        height: 46px;
+
+        margin-top: 5px;
+
+        color: white;
+
+        background:
+            linear-gradient(
+                135deg,
+                var(--accent),
+                var(--purple)
+            );
+
+        border: none;
+
+        border-radius: 10px;
+
+        font-family: inherit;
+
+        font-size: 11px;
+        font-weight: 850;
+
+        cursor: pointer;
+
+        box-shadow:
+            0 10px 25px
+            rgba(99, 102, 241, 0.18);
+
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+
+
+    .register-button:hover {
+        transform: translateY(-2px);
+
+        box-shadow:
+            0 14px 30px
+            rgba(99, 102, 241, 0.26);
+    }
+
+
+    .register-button:active {
+        transform: translateY(0);
+    }
+
+
+    /* =====================================================
+       LOGIN LINK
+    ====================================================== */
+
+    .login-area {
+        margin-top: 24px;
+
+        padding-top: 21px;
+
+        text-align: center;
+
+        border-top: 1px solid var(--border);
+    }
+
+
+    .login-area p {
+        display: inline;
+
+        margin: 0;
+
+        color: var(--text-muted);
+
+        font-size: 10px;
+    }
+
+
+    .login-link {
+        margin-left: 4px;
+
+        color: var(--accent-light);
+
+        font-size: 10px;
+        font-weight: 800;
+
+        text-decoration: none;
+    }
+
+
+    .login-link:hover {
+        text-decoration: underline;
+    }
+
+
+    /* =====================================================
+       SECURITY
+    ====================================================== */
+
+    .security-note {
+        display: flex;
+
+        align-items: center;
+        justify-content: center;
+
+        gap: 6px;
+
+        margin-top: 18px;
+
+        color: var(--text-light);
+
+        font-size: 8px;
+    }
+
+
+    /* =====================================================
+       RESPONSIVE
+    ====================================================== */
+
+    @media (max-width: 800px) {
+
+        .register-container {
+            max-width: 520px;
+
+            grid-template-columns: 1fr;
+        }
+
+
+        .register-showcase {
+            min-height: auto;
+
+            padding: 30px;
+        }
+
+
+        .showcase-content {
+            max-width: none;
+
+            margin-top: 45px;
+            margin-bottom: 35px;
+        }
+
+
+        .showcase-content h2 {
+            font-size: 30px;
+        }
+
+
+        .showcase-features {
+            flex-direction: row;
+
+            flex-wrap: wrap;
+        }
+
+
+        .showcase-feature {
+            width: calc(50% - 6px);
+        }
+
+
+        .register-form-area {
+            padding: 35px 30px;
+        }
+
+    }
+
+
+    @media (max-width: 520px) {
+
+        .register-page {
+            padding: 25px 12px 45px;
+        }
+
+
+        .register-container {
+            border-radius: 21px;
+        }
+
+
+        .register-showcase {
+            padding: 25px;
+        }
+
+
+        .showcase-content {
+            margin-top: 35px;
+        }
+
+
+        .showcase-content h2 {
+            font-size: 27px;
+        }
+
+
+        .showcase-content p {
+            font-size: 11px;
+        }
+
+
+        .showcase-features {
+            flex-direction: column;
+        }
+
+
+        .showcase-feature {
+            width: 100%;
+        }
+
+
+        .register-form-area {
+            padding: 30px 22px;
+        }
+
+
+        .form-heading h1 {
+            font-size: 22px;
+        }
+
+    }
+
+</style>
+
+
+<div class="register-page">
+
+    <div class="register-container">
+
+
+        <!-- =================================================
+             LEFT SHOWCASE
+        ================================================== -->
+
+        <aside class="register-showcase">
+
+            <div class="showcase-glow"></div>
+
+
+            <!-- BRAND -->
+
+            <div class="showcase-logo">
+
+                <div class="showcase-logo-mark">
+                    A↗
+                </div>
+
+                <div class="showcase-logo-name">
+                    ASCEND
+                </div>
+
+            </div>
+
+
+            <!-- CONTENT -->
+
+            <div class="showcase-content">
+
+                <div class="showcase-eyebrow">
+
+                    <span class="eyebrow-dot"></span>
+
+                    Your productivity starts here
+
+                </div>
+
+
+                <h2>
+
+                    Turn your plans
+                    into <span>progress.</span>
+
+                </h2>
+
+
+                <p>
+
+                    Create your ASCEND account and bring
+                    your tasks, priorities and goals into
+                    one focused workspace.
+
+                </p>
+
+            </div>
+
+
+            <!-- FEATURES -->
+
+            <div class="showcase-features">
+
+                <div class="showcase-feature">
+
+                    <span class="feature-icon">
+                        ✓
+                    </span>
+
+                    <span>
+                        Organize your tasks
+                    </span>
+
+                </div>
+
+
+                <div class="showcase-feature">
+
+                    <span class="feature-icon">
+                        ◈
+                    </span>
+
+                    <span>
+                        Track your progress
+                    </span>
+
+                </div>
+
+
+                <div class="showcase-feature">
+
+                    <span class="feature-icon">
+                        ↗
+                    </span>
+
+                    <span>
+                        Achieve your goals
+                    </span>
+
+                </div>
+
+            </div>
+
+        </aside>
+
+
+        <!-- =================================================
+             RIGHT REGISTER FORM
+        ================================================== -->
+
+        <main class="register-form-area">
+
+
+            <div class="form-heading">
+
+                <h1>
+                    Create your account
+                </h1>
+
+                <p>
+                    It only takes a moment. Let's get you started.
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 REGISTER FORM
+            ================================================== -->
+
+            <form
+                method="POST"
+                class="register-form"
+            >
+
+                {% csrf_token %}
+
+
+                <!-- NON-FIELD ERRORS -->
+
+                {% if form.non_field_errors %}
+
+                    <div class="form-errors">
+
+                        {{ form.non_field_errors }}
+
+                    </div>
+
+                {% endif %}
+
+
+                <!-- USERNAME -->
+
+                <div class="form-group">
+
+                    <label for="{{ form.username.id_for_label }}">
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        name="username"
+                        id="{{ form.username.id_for_label }}"
+                        class="register-input"
+                        placeholder="Choose your username"
+                        value="{{ form.username.value|default:'' }}"
+                        autocomplete="username"
+                        required
+                        autofocus
+                    >
+
+
+                    {% if form.username.errors %}
+
+                        <div class="field-errors">
+                            {{ form.username.errors }}
+                        </div>
+
+                    {% endif %}
+
+
+                    {% if form.username.help_text %}
+
+                        <div class="field-help">
+                            {{ form.username.help_text|safe }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    <label for="{{ form.email.id_for_label }}">
+                        Email address
+                    </label>
+
+                    <input
+                        type="email"
+                        name="email"
+                        id="{{ form.email.id_for_label }}"
+                        class="register-input"
+                        placeholder="you@example.com"
+                        value="{{ form.email.value|default:'' }}"
+                        autocomplete="email"
+                        required
+                    >
+
+
+                    {% if form.email.errors %}
+
+                        <div class="field-errors">
+                            {{ form.email.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="form-group">
+
+                    <label for="{{ form.password1.id_for_label }}">
+                        Password
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <input
+                            type="password"
+                            name="password1"
+                            id="{{ form.password1.id_for_label }}"
+                            class="
+                                register-input
+                                password-input
+                            "
+                            placeholder="Create a strong password"
+                            autocomplete="new-password"
+                            required
+                        >
+
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            data-target="password1"
+                            aria-label="Show password"
+                            title="Show password"
+                        >
+                            👁️
+                        </button>
+
+                    </div>
+
+
+                    <div class="password-strength">
+
+                        <div class="strength-bars">
+
+                            <span class="strength-bar"></span>
+                            <span class="strength-bar"></span>
+                            <span class="strength-bar"></span>
+                            <span class="strength-bar"></span>
+
+                        </div>
+
+                        <span
+                            class="strength-text"
+                            id="strengthText"
+                        >
+                            Password
+                        </span>
+
+                    </div>
+
+
+                    {% if form.password1.errors %}
+
+                        <div class="field-errors">
+                            {{ form.password1.errors }}
+                        </div>
+
+                    {% endif %}
+
+
+                    {% if form.password1.help_text %}
+
+                        <div class="field-help">
+                            {{ form.password1.help_text|safe }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- CONFIRM PASSWORD -->
+
+                <div class="form-group">
+
+                    <label for="{{ form.password2.id_for_label }}">
+                        Confirm password
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <input
+                            type="password"
+                            name="password2"
+                            id="{{ form.password2.id_for_label }}"
+                            class="
+                                register-input
+                                password-input
+                            "
+                            placeholder="Enter your password again"
+                            autocomplete="new-password"
+                            required
+                        >
+
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            data-target="password2"
+                            aria-label="Show password"
+                            title="Show password"
+                        >
+                            👁️
+                        </button>
+
+                    </div>
+
+
+                    {% if form.password2.errors %}
+
+                        <div class="field-errors">
+                            {{ form.password2.errors }}
+                        </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- SUBMIT -->
+
+                <button
+                    type="submit"
+                    class="register-button"
+                >
+                    Create Account
+                    <span>→</span>
+                </button>
+
+            </form>
+
+
+            <!-- =================================================
+                 LOGIN
+            ================================================== -->
+
+            <div class="login-area">
+
+                <p>
+                    Already have an account?
+                </p>
+
+                <a
+                    href="{% url 'login' %}"
+                    class="login-link"
+                >
+                    Sign in
+                </a>
+
+            </div>
+
+
+            <!-- SECURITY -->
+
+            <div class="security-note">
+
+                <span>🔒</span>
+
+                <span>
+                    Your account information is securely protected.
+                </span>
+
+            </div>
+
+
+        </main>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    (function () {
+
+        /* =================================================
+           PASSWORD SHOW / HIDE
+        ================================================== */
+
+        const toggles =
+            document.querySelectorAll(
+                '.password-toggle'
+            );
+
+
+        toggles.forEach(function (toggle) {
+
+            toggle.addEventListener(
+                'click',
+                function () {
+
+                    const targetId =
+                        toggle.getAttribute(
+                            'data-target'
+                        );
+
+                    const input =
+                        document.getElementById(
+                            targetId
+                        );
+
+
+                    if (!input) {
+                        return;
+                    }
+
+
+                    const isHidden =
+                        input.type === 'password';
+
+
+                    input.type =
+                        isHidden
+                            ? 'text'
+                            : 'password';
+
+
+                    toggle.textContent =
+                        isHidden
+                            ? '🙈'
+                            : '👁️';
+
+
+                    toggle.setAttribute(
+                        'aria-label',
+                        isHidden
+                            ? 'Hide password'
+                            : 'Show password'
+                    );
+
+
+                    toggle.setAttribute(
+                        'title',
+                        isHidden
+                            ? 'Hide password'
+                            : 'Show password'
+                    );
+
+                }
+            );
+
+        });
+
+
+        /* =================================================
+           PASSWORD STRENGTH
+        ================================================== */
+
+        const passwordInput =
+            document.getElementById(
+                '{{ form.password1.id_for_label }}'
+            );
+
+        const strengthBars =
+            document.querySelectorAll(
+                '.strength-bar'
+            );
+
+        const strengthText =
+            document.getElementById(
+                'strengthText'
+            );
+
+
+        if (
+            passwordInput &&
+            strengthBars.length &&
+            strengthText
+        ) {
+
+            passwordInput.addEventListener(
+                'input',
+                function () {
+
+                    const password =
+                        passwordInput.value;
+
+                    let score = 0;
+
+
+                    if (password.length >= 8) {
+                        score++;
+                    }
+
+                    if (/[A-Z]/.test(password)) {
+                        score++;
+                    }
+
+                    if (/[0-9]/.test(password)) {
+                        score++;
+                    }
+
+                    if (/[^A-Za-z0-9]/.test(password)) {
+                        score++;
+                    }
+
+
+                    strengthBars.forEach(
+                        function (bar, index) {
+
+                            if (index < score) {
+
+                                bar.style.background =
+                                    'var(--accent)';
+
+                            } else {
+
+                                bar.style.background =
+                                    'var(--border)';
+
+                            }
+
+                        }
+                    );
+
+
+                    if (!password) {
+
+                        strengthText.textContent =
+                            'Password';
+
+                    } else if (score <= 1) {
+
+                        strengthText.textContent =
+                            'Weak';
+
+                    } else if (score === 2) {
+
+                        strengthText.textContent =
+                            'Fair';
+
+                    } else if (score === 3) {
+
+                        strengthText.textContent =
+                            'Good';
+
+                    } else {
+
+                        strengthText.textContent =
+                            'Strong';
+
+                    }
+
+                }
+            );
+
+        }
+
+    })();
+
+</script>
+
+{% endblock %}

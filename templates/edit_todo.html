@@ -1,0 +1,795 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Edit Task | ASCEND
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+    /* =====================================================
+       EDIT TODO PAGE
+    ====================================================== */
+
+    .edit-page {
+        max-width: 760px;
+        margin: 0 auto 50px;
+    }
+
+
+    /* =====================================================
+       HEADER
+    ====================================================== */
+
+    .edit-header {
+        margin-bottom: 20px;
+    }
+
+
+    .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+
+        margin-bottom: 18px;
+
+        color: var(--text-muted);
+
+        font-size: 11px;
+        font-weight: 700;
+
+        text-decoration: none;
+
+        transition: 0.2s ease;
+    }
+
+
+    .back-link:hover {
+        color: var(--accent-light);
+    }
+
+
+    .edit-header h1 {
+        margin: 0 0 6px;
+
+        color: var(--text);
+
+        font-size: 28px;
+        font-weight: 850;
+
+        letter-spacing: -0.5px;
+    }
+
+
+    .edit-header p {
+        margin: 0;
+
+        color: var(--text-muted);
+
+        font-size: 12px;
+    }
+
+
+    /* =====================================================
+       MAIN CARD
+    ====================================================== */
+
+    .edit-card {
+        padding: 28px;
+
+        background: var(--surface);
+
+        border: 1px solid var(--border);
+
+        border-radius: 23px;
+
+        box-shadow: var(--shadow);
+    }
+
+
+    .edit-card-top {
+        display: flex;
+        align-items: center;
+
+        gap: 12px;
+
+        padding-bottom: 20px;
+
+        margin-bottom: 23px;
+
+        border-bottom: 1px solid var(--border);
+    }
+
+
+    .edit-icon {
+        width: 42px;
+        height: 42px;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        flex-shrink: 0;
+
+        color: white;
+
+        background:
+            linear-gradient(
+                135deg,
+                var(--accent),
+                var(--purple)
+            );
+
+        border-radius: 12px;
+
+        font-size: 18px;
+
+        box-shadow:
+            0 8px 22px
+            rgba(99, 102, 241, 0.18);
+    }
+
+
+    .edit-card-heading h2 {
+        margin: 0 0 3px;
+
+        color: var(--text);
+
+        font-size: 15px;
+        font-weight: 800;
+    }
+
+
+    .edit-card-heading p {
+        margin: 0;
+
+        color: var(--text-muted);
+
+        font-size: 10px;
+    }
+
+
+    /* =====================================================
+       FORM
+    ====================================================== */
+
+    .edit-form {
+        display: flex;
+
+        flex-direction: column;
+
+        gap: 18px;
+    }
+
+
+    .form-group {
+        width: 100%;
+    }
+
+
+    .form-row {
+        display: grid;
+
+        grid-template-columns:
+            1fr 1fr;
+
+        gap: 15px;
+    }
+
+
+    .form-group label {
+        display: block;
+
+        margin-bottom: 8px;
+
+        color: var(--text-secondary);
+
+        font-size: 11px;
+        font-weight: 750;
+    }
+
+
+    .required-mark {
+        color: #ef4444;
+    }
+
+
+    .form-control {
+        width: 100%;
+
+        box-sizing: border-box;
+
+        color: var(--text);
+
+        background: var(--input-bg);
+
+        border: 1px solid var(--input-border);
+
+        border-radius: 11px;
+
+        outline: none;
+
+        font-family: inherit;
+
+        font-size: 12px;
+
+        transition: 0.2s ease;
+    }
+
+
+    input.form-control,
+    select.form-control {
+        height: 46px;
+
+        padding: 0 13px;
+    }
+
+
+    textarea.form-control {
+        min-height: 125px;
+
+        padding: 13px;
+
+        line-height: 1.6;
+
+        resize: vertical;
+    }
+
+
+    .form-control::placeholder {
+        color: var(--text-light);
+    }
+
+
+    .form-control:focus {
+        border-color:
+            rgba(99, 102, 241, 0.65);
+
+        box-shadow:
+            0 0 0 4px
+            rgba(99, 102, 241, 0.08);
+    }
+
+
+    /* =====================================================
+       CURRENT TASK INFO
+    ====================================================== */
+
+    .task-info {
+        display: flex;
+
+        flex-wrap: wrap;
+
+        gap: 7px;
+
+        padding: 13px;
+
+        background: var(--surface-secondary);
+
+        border: 1px solid var(--border);
+
+        border-radius: 12px;
+    }
+
+
+    .info-badge {
+        padding: 5px 9px;
+
+        color: var(--text-muted);
+
+        background: var(--surface);
+
+        border: 1px solid var(--border);
+
+        border-radius: 7px;
+
+        font-size: 9px;
+        font-weight: 700;
+    }
+
+
+    /* =====================================================
+       ACTIONS
+    ====================================================== */
+
+    .form-actions {
+        display: flex;
+
+        align-items: center;
+        justify-content: space-between;
+
+        gap: 12px;
+
+        padding-top: 7px;
+
+        margin-top: 3px;
+    }
+
+
+    .cancel-button,
+    .save-button {
+        min-height: 44px;
+
+        display: inline-flex;
+
+        align-items: center;
+        justify-content: center;
+
+        padding: 0 20px;
+
+        border-radius: 10px;
+
+        font-family: inherit;
+
+        font-size: 11px;
+        font-weight: 750;
+
+        text-decoration: none;
+
+        cursor: pointer;
+
+        transition: 0.2s ease;
+    }
+
+
+    .cancel-button {
+        color: var(--text-secondary);
+
+        background: var(--surface-secondary);
+
+        border: 1px solid var(--border);
+    }
+
+
+    .cancel-button:hover {
+        color: var(--text);
+
+        background: var(--surface-hover);
+
+        border-color: var(--border-strong);
+    }
+
+
+    .save-button {
+        color: white;
+
+        background:
+            linear-gradient(
+                135deg,
+                var(--accent),
+                var(--purple)
+            );
+
+        border: none;
+
+        box-shadow:
+            0 9px 24px
+            rgba(99, 102, 241, 0.18);
+    }
+
+
+    .save-button:hover {
+        transform: translateY(-2px);
+
+        box-shadow:
+            0 13px 30px
+            rgba(99, 102, 241, 0.27);
+    }
+
+
+    /* =====================================================
+       TIP
+    ====================================================== */
+
+    .edit-tip {
+        display: flex;
+
+        gap: 10px;
+
+        margin-top: 16px;
+
+        padding: 13px 15px;
+
+        background:
+            rgba(99, 102, 241, 0.06);
+
+        border:
+            1px solid
+            rgba(99, 102, 241, 0.12);
+
+        border-radius: 12px;
+    }
+
+
+    .tip-icon {
+        flex-shrink: 0;
+
+        font-size: 14px;
+    }
+
+
+    .edit-tip p {
+        margin: 0;
+
+        color: var(--text-muted);
+
+        font-size: 10px;
+
+        line-height: 1.6;
+    }
+
+
+    /* =====================================================
+       MOBILE
+    ====================================================== */
+
+    @media (max-width: 650px) {
+
+        .edit-page {
+            margin-bottom: 35px;
+        }
+
+
+        .edit-card {
+            padding: 20px 17px;
+
+            border-radius: 19px;
+        }
+
+
+        .edit-header h1 {
+            font-size: 24px;
+        }
+
+
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+
+
+        .form-actions {
+            flex-direction: column-reverse;
+
+            align-items: stretch;
+        }
+
+
+        .cancel-button,
+        .save-button {
+            width: 100%;
+        }
+
+    }
+
+</style>
+
+
+<div class="edit-page">
+
+
+    <!-- =================================================
+         HEADER
+    ================================================== -->
+
+    <div class="edit-header">
+
+        <a
+            href="{% url 'dashboard' %}"
+            class="back-link"
+        >
+            ← Back to Dashboard
+        </a>
+
+
+        <h1>
+            Edit Task
+        </h1>
+
+
+        <p>
+            Update your task details and keep your plan on track.
+        </p>
+
+    </div>
+
+
+    <!-- =================================================
+         EDIT CARD
+    ================================================== -->
+
+    <section class="edit-card">
+
+
+        <div class="edit-card-top">
+
+            <div class="edit-icon">
+                ✏️
+            </div>
+
+
+            <div class="edit-card-heading">
+
+                <h2>
+                    Update Task
+                </h2>
+
+                <p>
+                    Make the changes you need and save them.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             FORM
+        ================================================== -->
+
+        <form
+            method="POST"
+            class="edit-form"
+        >
+
+            {% csrf_token %}
+
+
+            <!-- TITLE -->
+
+            <div class="form-group">
+
+                <label for="edit-title">
+                    Task Title
+                    <span class="required-mark">*</span>
+                </label>
+
+                <input
+                    type="text"
+                    id="edit-title"
+                    name="title"
+                    class="form-control"
+                    value="{{ todo.title }}"
+                    maxlength="200"
+                    placeholder="What needs to be done?"
+                    required
+                >
+
+            </div>
+
+
+            <!-- DESCRIPTION -->
+
+            <div class="form-group">
+
+                <label for="edit-description">
+                    Description
+                </label>
+
+                <textarea
+                    id="edit-description"
+                    name="description"
+                    class="form-control"
+                    placeholder="Add some details about this task..."
+                >{{ todo.description }}</textarea>
+
+            </div>
+
+
+            <!-- DATE + PRIORITY -->
+
+            <div class="form-row">
+
+
+                <div class="form-group">
+
+                    <label for="edit-due-date">
+                        Due Date
+                    </label>
+
+                    <input
+                        type="date"
+                        id="edit-due-date"
+                        name="due_date"
+                        class="form-control"
+                        value="{{ todo.due_date|date:'Y-m-d' }}"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="edit-priority">
+                        Priority
+                    </label>
+
+                    <select
+                        id="edit-priority"
+                        name="priority"
+                        class="form-control"
+                    >
+
+                        <option
+                            value="low"
+                            {% if todo.priority == 'low' %}
+                                selected
+                            {% endif %}
+                        >
+                            🟢 Low
+                        </option>
+
+                        <option
+                            value="medium"
+                            {% if todo.priority == 'medium' %}
+                                selected
+                            {% endif %}
+                        >
+                            🟡 Medium
+                        </option>
+
+                        <option
+                            value="high"
+                            {% if todo.priority == 'high' %}
+                                selected
+                            {% endif %}
+                        >
+                            🔴 High
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- CATEGORY -->
+
+            <div class="form-group">
+
+                <label for="edit-category">
+                    Category
+                </label>
+
+                <select
+                    id="edit-category"
+                    name="category"
+                    class="form-control"
+                >
+
+                    <option
+                        value="work"
+                        {% if todo.category == 'work' %}
+                            selected
+                        {% endif %}
+                    >
+                        💼 Work
+                    </option>
+
+                    <option
+                        value="study"
+                        {% if todo.category == 'study' %}
+                            selected
+                        {% endif %}
+                    >
+                        📚 Study
+                    </option>
+
+                    <option
+                        value="personal"
+                        {% if todo.category == 'personal' %}
+                            selected
+                        {% endif %}
+                    >
+                        🏠 Personal
+                    </option>
+
+                    <option
+                        value="shopping"
+                        {% if todo.category == 'shopping' %}
+                            selected
+                        {% endif %}
+                    >
+                        🛒 Shopping
+                    </option>
+
+                    <option
+                        value="health"
+                        {% if todo.category == 'health' %}
+                            selected
+                        {% endif %}
+                    >
+                        💪 Health
+                    </option>
+
+                    <option
+                        value="other"
+                        {% if todo.category == 'other' %}
+                            selected
+                        {% endif %}
+                    >
+                        📌 Other
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- CURRENT TASK INFO -->
+
+            <div class="task-info">
+
+                <span class="info-badge">
+                    📅 Created:
+                    {{ todo.created_at|date:"d M Y" }}
+                </span>
+
+
+                {% if todo.completed %}
+
+                    <span class="info-badge">
+                        ✅ Completed
+                    </span>
+
+                {% else %}
+
+                    <span class="info-badge">
+                        ⏳ Pending
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div class="form-actions">
+
+                <a
+                    href="{% url 'dashboard' %}"
+                    class="cancel-button"
+                >
+                    Cancel
+                </a>
+
+
+                <button
+                    type="submit"
+                    class="save-button"
+                >
+                    ✓ Save Changes
+                </button>
+
+            </div>
+
+
+        </form>
+
+
+        <!-- TIP -->
+
+        <div class="edit-tip">
+
+            <span class="tip-icon">
+                💡
+            </span>
+
+            <p>
+                Keep your task details clear and specific.
+                A well-defined task makes it easier to stay focused
+                and achieve your goal.
+            </p>
+
+        </div>
+
+
+    </section>
+
+
+</div>
+
+{% endblock %}
