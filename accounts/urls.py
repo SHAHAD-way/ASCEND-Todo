@@ -1,4 +1,3 @@
-```python
 from django.urls import path
 from django.contrib.auth import views as auth_views
 
@@ -7,14 +6,12 @@ from . import views
 
 urlpatterns = [
 
-    # Home / Login
     path(
         '',
         views.login_view,
         name='home'
     ),
 
-    # Authentication
     path(
         'register/',
         views.register,
@@ -33,7 +30,6 @@ urlpatterns = [
         name='logout'
     ),
 
-    # Profile
     path(
         'profile/',
         views.profile,
@@ -46,7 +42,6 @@ urlpatterns = [
         name='change_password'
     ),
 
-    # Forgot Password
     path(
         'forgot-password/',
         auth_views.PasswordResetView.as_view(
@@ -84,14 +79,3 @@ urlpatterns = [
     ),
 
 ]
-```
-
-Then run:
-
-```powershell
-git add accounts/urls.py
-git commit -m "Add home route"
-git push
-```
-
-Wait for Render to finish deploying, then refresh your website.
